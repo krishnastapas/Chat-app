@@ -3,7 +3,6 @@ import { useContext } from "react";
 import { ChatContext } from "./feature/context/ChatContext";
 import Login from "./component/Login";
 import Register from "./component/Register";
-import Chat from "./chat";
 import Home from "./component/Home";
 
 function App() {

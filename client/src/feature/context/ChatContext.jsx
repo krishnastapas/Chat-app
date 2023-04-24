@@ -13,33 +13,9 @@ export const ChatProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [allUserList, setAllUserList] = useState();
   const [friendList, setFriendList] = useState();
+  const [currentFriend, setCurrentFriend] = useState();
+  const [messageList, setMessageList] = useState();
 
-  //   const getAllChats = async () => {
-  //     try {
-  //       if (ethereum) {
-  //         const ChatsContract = createEthereumContract();
-
-  //         const availableChats = await ChatsContract.getAllChats();
-
-  //         const structuredChats = availableChats.map((Chat) => ({
-  //           addressTo: Chat.receiver,
-  //           addressFrom: Chat.sender,
-  //           timestamp: new Date(Chat.timestamp.toNumber() * 1000).toLocaleString(),
-  //           message: Chat.message,
-  //           keyword: Chat.keyword,
-  //           amount: parseInt(Chat.amount._hex) / (10 ** 18)
-  //         }));
-
-  //         console.log(structuredChats);
-
-  //         setChats(structuredChats);
-  //       } else {
-  //         console.log("Ethereum is not present");
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
   const getAllUser = async () => {
     const contract = createEthereumContract();
     console.log(contract);
@@ -95,6 +71,21 @@ export const ChatProvider = ({ children }) => {
     }
   };
 
+  const readMessageFormContract = async (chat) => {
+    setCurrentFriend(chat);
+    const contract = createEthereumContract();
+    console.log(contract);
+    let list = [];
+    try {
+      list = await contract.readMessage(chat.pubkey);
+      console.log(list);
+      setMessageList(list);
+    } catch (error) {
+      console.log(error);
+    }
+    return list;
+  };
+
   const getUserName = async (account) => {
     setIsLoading(true);
     const contract = createEthereumContract();
@@ -124,6 +115,10 @@ export const ChatProvider = ({ children }) => {
       const list = await contract.getMyFriendList();
       console.log(list);
       setFriendList(list);
+      if(list.length>0){
+        readMessageFormContract(list[0])
+        
+      }
     } catch (error) {
       console.log(error);
     }
@@ -180,7 +175,10 @@ export const ChatProvider = ({ children }) => {
         allUserList,
         getAllFriend,
         addFriend,
-        friendList
+        friendList,
+        readMessageFormContract,
+        currentFriend,
+        messageList
       }}
     >
       {!isLoading && children}

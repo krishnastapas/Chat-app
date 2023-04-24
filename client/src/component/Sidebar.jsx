@@ -2,23 +2,29 @@ import React, { useContext, useState } from "react";
 import "./Sidebar.css";
 import { ChatContext } from "../feature/context/ChatContext";
 import AllUserModal from "./AllUserList";
-import { Avatar, IconButton, Button } from "@mui/material";
+import { Avatar, IconButton, Button, Box } from "@mui/material";
 import SidebarChat from "./SidebarChat";
 // import { useStateValue } from '../stateProviderContext/StateProvider';
 // import { actionTypes } from '../stateProviderContext/reducer';
 
 function Sidebar() {
-  const { friendList, user } = useContext(ChatContext);
+  const { friendList, user, readMessageFormContract } = useContext(ChatContext);
 
   const [popUpMenu, setPopUpMenu] = React.useState(false);
-
-  
+  const [loading, setLoading] = useState(false);
 
   const [showModal, setShowModal] = useState("");
   const handleModal = (str) => {
     setShowModal(str);
   };
 
+  const hadleOnClick = async (chat) => {
+    setLoading(true);
+    console.log(chat);
+    const list = await readMessageFormContract(chat);
+    setLoading(false);
+    // get the message list
+  };
   // console.log(chats);
   return (
     <>
@@ -40,7 +46,7 @@ function Sidebar() {
               <IconButton>{/* <MoreVert /> */}</IconButton>
             </div>
           </div>
-          {popUpMenu && PopUpMenu()}
+          {/* {popUpMenu && PopUpMenu()} */}
         </div>
         <div className="sidebar_search">
           <div className="sidebar_searchContainer">
@@ -52,9 +58,21 @@ function Sidebar() {
         <div className="sidebar_chats">
           {/* <SidebarChat addNewChat /> */}
 
-          {friendList && friendList.map((chat) => <SidebarChat chat={chat} />)}
+          {friendList &&
+            friendList.map((chat,index) => (
+              <Box
+              key={index}
+                onClick={() => {
+                  console.log("Chat clicked : ", chat.name);
+                  hadleOnClick(chat);
+                }}
+              >
+                <SidebarChat chat={chat} />
+              </Box>
+            ))}
         </div>
       </div>
+
       {showModal == "alluser" && <AllUserModal handleModal={handleModal} />}
     </>
   );
