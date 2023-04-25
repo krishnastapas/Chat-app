@@ -8,7 +8,7 @@ import SidebarChat from "./SidebarChat";
 // import { actionTypes } from '../stateProviderContext/reducer';
 
 function Sidebar() {
-  const { friendList, user, readMessageFormContract } = useContext(ChatContext);
+  const { friendList, user, changeFriend } = useContext(ChatContext);
 
   const [popUpMenu, setPopUpMenu] = React.useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ function Sidebar() {
   const hadleOnClick = async (chat) => {
     setLoading(true);
     console.log(chat);
-    const list = await readMessageFormContract(chat);
+    await changeFriend(chat);
     setLoading(false);
     // get the message list
   };

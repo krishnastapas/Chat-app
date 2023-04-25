@@ -1,11 +1,37 @@
-import { Avatar, IconButton } from "@mui/material";
-import React from "react";
+import { Avatar, Button, IconButton } from "@mui/material";
+import React, { useEffect } from "react";
 import "./Chat.css";
 import { useState, useContext } from "react";
-// import Message from "./Message";
+import { LoadingButton } from "@mui/lab";
+import { ChatContext } from "../feature/context/ChatContext";
+import Message from "./Message";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
-function Chat({ currentFriend, messageList }) {
+function Chat() {
   const [input, setInput] = useState();
+  const [loading, setLoading] = useState(false);
+  const [messagesList, setMessageList] = useState([]);
+  const { currentFriend, sendMessage,readMessageFormContract } = useContext(ChatContext);
+
+  const handleOnclickSendButton = async () => {
+    setLoading(true);
+
+    await sendMessage(currentFriend.pubkey, input);
+
+    setInput("");
+    setLoading(false);
+  };
+
+  const readAllmessage = async () => {
+    const data = await readMessageFormContract(currentFriend.pubkey);
+  
+      setMessageList(data);
+    
+   
+  };
+  useEffect(() => {
+    readAllmessage();
+  }, [currentFriend]);
   return (
     <div className="chat">
       <div className="chat_header">
@@ -16,25 +42,17 @@ function Chat({ currentFriend, messageList }) {
           <p>{currentFriend.pubkey}</p>
         </div>
         <div className="chat_headerRight">
-          {/* <IconButton />
-          <SearchOutlined />
-          <IconButton />
-          <IconButton />
-          <AttachFile />
-          <IconButton />
-          <IconButton />
-          <MoreVert />
-          <IconButton /> */}
+          <IconButton onClick={readAllmessage}>
+            <RefreshIcon />
+          </IconButton>
+         
         </div>
       </div>
 
       <div className="chat_body">
-        {/* {messages ? (messages.map((message) => (
-                    <Message  message={message} />
-                ))
-                ) : ""
-                }
-                <Message /> */}
+        {messagesList &&
+          messagesList.length > 0 &&
+          messagesList.map((message) => <Message message={message} />)}
       </div>
 
       <div className="chat_footer">
@@ -46,7 +64,17 @@ function Chat({ currentFriend, messageList }) {
             type="text"
             placeholder="Type a message"
           />
-          <button type="submit">send a message</button>
+          <LoadingButton
+            style={{ marginLeft: "2%" }}
+            variant="contained"
+            color="success"
+            type="submit"
+            size="small"
+            onClick={handleOnclickSendButton}
+            loading={loading}
+          >
+            send
+          </LoadingButton>
         </form>
         {/* <Mic /> */}
       </div>
