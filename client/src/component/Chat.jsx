@@ -6,28 +6,22 @@ import { LoadingButton } from "@mui/lab";
 import { ChatContext } from "../feature/context/ChatContext";
 import Message from "./Message";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import CreateMassageModal from "./ChatModal";
 
 function Chat() {
   const [input, setInput] = useState();
   const [loading, setLoading] = useState(false);
   const [messagesList, setMessageList] = useState([]);
-  const { currentFriend, sendMessage,readMessageFormContract } = useContext(ChatContext);
+  const { currentFriend, sendMessage, readMessageFormContract } =
+    useContext(ChatContext);
+  const [showModal, setShowModal] = useState("");
 
-  const handleOnclickSendButton = async () => {
-    setLoading(true);
-
-    await sendMessage(currentFriend.pubkey, input);
-
-    setInput("");
-    setLoading(false);
-  };
+ 
 
   const readAllmessage = async () => {
     const data = await readMessageFormContract(currentFriend.pubkey);
-  
-      setMessageList(data);
-    
-   
+
+    setMessageList(data);
   };
   useEffect(() => {
     readAllmessage();
@@ -45,39 +39,30 @@ function Chat() {
           <IconButton onClick={readAllmessage}>
             <RefreshIcon />
           </IconButton>
-         
         </div>
+        <Button
+          variant="contained"
+          sx={{
+            height: "40px",
+            margin: "5%",
+          }}
+          onClick={()=>{
+            setShowModal("add")
+          }}
+        >
+          Message
+        </Button>
       </div>
 
       <div className="chat_body">
         {messagesList &&
           messagesList.length > 0 &&
           messagesList.map((message) => <Message message={message} />)}
+          
       </div>
 
-      <div className="chat_footer">
-        {/* <InsertEmoticon /> */}
-        <form>
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            type="text"
-            placeholder="Type a message"
-          />
-          <LoadingButton
-            style={{ marginLeft: "2%" }}
-            variant="contained"
-            color="success"
-            type="submit"
-            size="small"
-            onClick={handleOnclickSendButton}
-            loading={loading}
-          >
-            send
-          </LoadingButton>
-        </form>
-        {/* <Mic /> */}
-      </div>
+        {showModal=="add"?<CreateMassageModal getAllList={readAllmessage} onClose={()=>setShowModal("")}/>:""}
+    
     </div>
   );
 }

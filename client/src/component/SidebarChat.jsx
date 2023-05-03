@@ -12,7 +12,7 @@ function SidebarChat({ chat }) {
       <Avatar src={chat.chatPhoto} />
       <div className="sidebarchat_info">
         <h2>{chat.name}</h2>
-        <p>last message.....</p>
+        {/* <p>last message.....</p> */}
       </div>
       <div className="moreVert" onClick={() => {}}>
         <IconButton>

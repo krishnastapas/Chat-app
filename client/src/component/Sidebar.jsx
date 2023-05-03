@@ -2,8 +2,9 @@ import React, { useContext, useState } from "react";
 import "./Sidebar.css";
 import { ChatContext } from "../feature/context/ChatContext";
 import AllUserModal from "./AllUserList";
-import { Avatar, IconButton, Button, Box } from "@mui/material";
+import { Avatar, IconButton, Button, Box, useMediaQuery } from "@mui/material";
 import SidebarChat from "./SidebarChat";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 // import { useStateValue } from '../stateProviderContext/StateProvider';
 // import { actionTypes } from '../stateProviderContext/reducer';
 
@@ -12,6 +13,7 @@ function Sidebar() {
 
   const [popUpMenu, setPopUpMenu] = React.useState(false);
   const [loading, setLoading] = useState(false);
+  const matches = useMediaQuery("(max-width:600px)");
 
   const [showModal, setShowModal] = useState("");
   const handleModal = (str) => {
@@ -28,30 +30,41 @@ function Sidebar() {
   // console.log(chats);
   return (
     <>
-      <div className="sidebar">
+      <div
+        style={{
+          flex: matches ? "0.35" : "0.25",
+          display: "flex",
+          flexDirection: "column",
+          minWidth: "300px",
+        }}
+      >
         <div className="sidebar_header">
-          {/* <Avatar /> */}
-          <span>{user}</span>
+          <Box className="sidebar_header_user">
+            <Avatar />
+            <h4>{user}</h4>
+          </Box>
           <div className="sidebar_headerRight">
-            <Button
+            <IconButton
               variant="contained"
               color="primary"
               onClick={() => {
                 setShowModal("alluser");
               }}
             >
-              Friend +
-            </Button>
+              <GroupAddIcon fontSize="large" />
+            </IconButton>
             <div onClick={() => setPopUpMenu(!popUpMenu)}>
               <IconButton>{/* <MoreVert /> */}</IconButton>
             </div>
           </div>
           {/* {popUpMenu && PopUpMenu()} */}
         </div>
+
+
         <div className="sidebar_search">
           <div className="sidebar_searchContainer">
             {/* <SearchOutlined /> */}
-            <input placeholder="Search or Satart a new chat" type="text" />
+            <input placeholder=" Search " type="text" />
           </div>
         </div>
 
@@ -59,14 +72,18 @@ function Sidebar() {
           {/* <SidebarChat addNewChat /> */}
 
           {friendList &&
-            friendList.map((chat,index) => (
+            friendList.map((chat, index) => (
               <Box
-              key={index}
+                key={index}
                 onClick={() => {
                   console.log("Chat clicked : ", chat.name);
                   hadleOnClick(chat);
                 }}
               >
+                <SidebarChat chat={chat} />
+                <SidebarChat chat={chat} />
+                <SidebarChat chat={chat} />
+                <SidebarChat chat={chat} />
                 <SidebarChat chat={chat} />
               </Box>
             ))}

@@ -1,5 +1,5 @@
 .chat{
-    flex:0.65;
+    flex:0.75;
     display: flex;
     flex-direction: column;
     
@@ -45,20 +45,21 @@ padding: 5px;
 
 }
 .chat_footer{
+    background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+    height: 120px;
+    /* background-color: transparent; */
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 62px;
-    border-top: 1px solid lightgray;
-    margin:0% 2%;
+    /* flex-direction: column; */
+    flex-direction: row-reverse;
 }
-.chat_footer>form{
+
+/* .chat_footer>form{
     flex:1;
     display: flex;
 
 
-}
-.chat_footer >form>input{
+} */
+/* .chat_footer >form>input{
     flex:1;
     border-radius: 30px;
     padding :10px;
@@ -68,9 +69,9 @@ padding: 5px;
 }
 .chat_footer >form >button{
     /* display:none; */
-}
-.chat_footer >.MuiSvgIcon-root{
+/* } */
+/* .chat_footer >.MuiSvgIcon-root{
     padding: 10px;
     color: grey;
 
-}
+} */
