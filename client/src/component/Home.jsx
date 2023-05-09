@@ -10,6 +10,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import AIChat from "./AIChat";
 function Home() {
   const { currentFriend } = useContext(ChatContext);
   const matches = useMediaQuery("(max-width:600px)");
@@ -30,8 +31,8 @@ function Home() {
     <Card
       style={{
         position: "absolute",
-        height: matches ? "100vh" : "90vh",
-        width: matches ? "100vw" : "80vw",
+        height: matches ? "100vh" : "100vh",
+        width: matches ? "100vw" : "100vw",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
@@ -53,7 +54,7 @@ function Home() {
           <MenuIcon />
         </IconButton>
       )}
-      {
+      {openDrawer ? (
         <SwipeableDrawer
           anchor={"left"}
           open={openDrawer}
@@ -62,8 +63,10 @@ function Home() {
         >
           <Sidebar />
         </SwipeableDrawer>
-      }
-      {currentFriend ? <Chat /> : ""}
+      ) : (
+        ""
+      )}
+      {currentFriend == "AI" ? <AIChat /> : currentFriend ? <Chat /> : ""}
     </Card>
   );
 }

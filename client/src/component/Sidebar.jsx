@@ -27,20 +27,23 @@ function Sidebar() {
     setLoading(false);
     // get the message list
   };
+  const AiInfo = { name: "AI Chat Bot" };
   // console.log(chats);
   return (
     <>
       <div
         style={{
-          flex: matches ? "0.35" : "0.25",
+          width: "25%",
           display: "flex",
           flexDirection: "column",
-          minWidth: "300px",
+          // minWidth: "300px",
         }}
       >
         <div className="sidebar_header">
           <Box className="sidebar_header_user">
-            <Avatar />
+            <Box style={{ marginRight: "20px" }}>
+              <Avatar />
+            </Box>
             <h4>{user}</h4>
           </Box>
           <div className="sidebar_headerRight">
@@ -60,7 +63,6 @@ function Sidebar() {
           {/* {popUpMenu && PopUpMenu()} */}
         </div>
 
-
         <div className="sidebar_search">
           <div className="sidebar_searchContainer">
             {/* <SearchOutlined /> */}
@@ -71,6 +73,24 @@ function Sidebar() {
         <div className="sidebar_chats">
           {/* <SidebarChat addNewChat /> */}
 
+
+
+
+
+          {/* AI side bar */}
+          <Box
+            onClick={() => {
+              
+              hadleOnClick("AI");
+            }}
+          >
+            <SidebarChat chat={AiInfo} />
+          </Box>
+
+
+
+
+
           {friendList &&
             friendList.map((chat, index) => (
               <Box
@@ -80,10 +100,6 @@ function Sidebar() {
                   hadleOnClick(chat);
                 }}
               >
-                <SidebarChat chat={chat} />
-                <SidebarChat chat={chat} />
-                <SidebarChat chat={chat} />
-                <SidebarChat chat={chat} />
                 <SidebarChat chat={chat} />
               </Box>
             ))}

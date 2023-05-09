@@ -9,9 +9,11 @@
 .sidebar_header_user{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     flex: 0.65;
 }
+
+
 .sidebar_search {
     display: flex;
     align-items: center;

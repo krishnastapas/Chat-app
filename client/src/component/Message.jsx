@@ -7,17 +7,16 @@ function Message({ message }) {
 
   const [time, setTime] = useState();
   const [date, setDate] = useState();
-
-  function ChangeHexadecimalTodecimal(num) {}
+  const [isReceiver, setIsReceiver] = useState(false);
 
   function unixToTime(unixTimestamp) {
     const date = new Date(unixTimestamp * 1000);
     const day = date.getDate();
     const month = date.getMonth();
     const year = date.getFullYear();
-    
-    console.log(day+"-" +month+"-" + year);
-    setDate("   "+day+"-" +month+"-" + year);
+
+    console.log(day + "-" + month + "-" + year);
+    setDate("   " + day + "-" + month + "-" + year);
     const hours = date.getHours();
     const minutes = "0" + date.getMinutes();
     const seconds = "0" + date.getSeconds();
@@ -31,24 +30,24 @@ function Message({ message }) {
   };
   useEffect(() => {
     setTimeAndDate();
+    if (
+      message.sender.slice(-10).toLowerCase() ===
+      currentAccount.slice(-10).toLowerCase()
+    ) {
+      setIsReceiver(true);
+    }
   }, []);
   return (
     <>
       {message ? (
-        <div
-          className={`chat_message ${
-            message.sender.slice(-10).toLowerCase() ===
-              currentAccount.slice(-10).toLowerCase() && "chat_receiver"
-          }`}
-        >
-          <p>
+        <div className={isReceiver?"chat_message_receive" :"chat_message"}>
+        
             <span className="chat_name"></span>
-            <spam dangerouslySetInnerHTML={{ __html: message.msg }}></spam>
+            <div dangerouslySetInnerHTML={{ __html: message.msg }}></div>
 
             <span className="chat_timestamp">{date}</span>
             <span className="chat_timestamp">{time}</span>
-
-          </p>
+        
         </div>
       ) : (
         ""
