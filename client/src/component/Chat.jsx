@@ -77,7 +77,7 @@ function Chat() {
       <div className="chat_body">
         {messagesList &&
           messagesList.length > 0 &&
-          messagesList.map((message) => <Message message={message} />)}
+          messagesList.map((message) => <Message message={message} isLoading={isLoading} onChangeLoading={(ele)=>setIsLoading(ele)} />)}
       </div>
 
       {showModal == "add" ? (

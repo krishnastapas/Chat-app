@@ -4,7 +4,7 @@ import openai
 import os
 import sys
 import messages
-from googletrans import Translator
+from googletrans import Translator,LANGUAGES
 try:
   openai.api_key ="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"
 
@@ -106,18 +106,21 @@ def getChatReply():
   return response
   # return {'role': 'assistant', 'content': 'Why did the chicken cross the road'}
 
-# @app.route('/text-translate',methods=['POST'])
-# def translateText():
-#  req=request.json
-#  print(req)
-# #  text=req.text
-# #  language=req.language
-#  translator = Translator()
-#  translation = translator.translate("Hi how are you", dest='bn')
-#  print(translation)
-#  response = jsonify(translation.text)
-#  response.headers.add("Access-Control-Allow-Origin", "*")
-#  return response
+app.secret_key="sldfnaskldflksfkljsl"
+@app.route('/text-translate',methods=['POST'])
+def translateText():
+ req=request.json
+ print(req)
+ text=req['text']
+ language=req['language']
+ print(text)
+ print(language)
+ trans = Translator()
+ translation = trans.translate(text, dest=language)
+ print(translation)
+ response = jsonify(translation.text)
+ response.headers.add("Access-Control-Allow-Origin", "*")
+ return response
  
 
 

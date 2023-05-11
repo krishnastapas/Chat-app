@@ -66,7 +66,7 @@ function AIChat() {
         {messagesList &&
           messagesList.length > 0 &&
           messagesList.map((message, index) => (
-            <AIMessage message={message} key={index} />
+            <AIMessage message={message} key={index} onChangeLoading={(ele)=>setIsLoading(ele)} />
           ))}
       </div>
 

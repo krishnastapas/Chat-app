@@ -3,10 +3,13 @@ import axios from "../axios"
 
 
 // const systemMessage = { //  Explain things like you're talking to a software professional with 5 years of experience.
-//     "role": "system", "content": "Explain things like you're talking to a software professional with 2 years of experience."
+//     "role": "system", "content": "Explain things like you're software professional with 10 years of experience."
 // }
-const systemMessage = { //  Explain things like you're talking to a software professional with 5 years of experience.
-    "role": "system", "content": "Explain things like you're talking to your boyfriend."
+const systemMessage = {
+    "role": "system", "content": "You are friendBot, an automated reply what they ask. \
+You first greet the friend \
+and then asks what he want."
+
 }
 
 
