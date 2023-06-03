@@ -19,7 +19,7 @@ export const laguageCodeList=[
     {name:"Nepali",code:"ne"},
     {name:"Portuguese ",code:"pt"},
     {name:"Russian",code:"ru"},
-    {name:"Sanskrit	",code:"sa"},
+    // {name:"Sanskrit	",code:"sa"},
     {name:"Tamil",code:"ta"},
     {name:"Telugu",code:"te"},
     {name:"Urdu",code:"ur"}

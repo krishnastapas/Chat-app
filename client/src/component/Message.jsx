@@ -18,9 +18,13 @@ import {
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { laguageCodeList } from "../utils/laguageCodeList";
 import { googleTranslateApi } from "./googleTranslate";
+import CloseIcon from '@mui/icons-material/Close';
+
 function Message({ message, onChangeLoading }) {
   const [open, setOpen] = React.useState(false);
+
   const [translateMessage, setTranslateMessage] = useState();
+
   const anchorRef = React.useRef();
 
   const handleToggle = () => {
@@ -43,6 +47,7 @@ function Message({ message, onChangeLoading }) {
 
     setOpen(false);
   };
+
   const handleOnClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -59,6 +64,7 @@ function Message({ message, onChangeLoading }) {
       setOpen(false);
     }
   }
+
   const { currentAccount } = useContext(ChatContext);
 
   const [time, setTime] = useState();
@@ -84,10 +90,11 @@ function Message({ message, onChangeLoading }) {
   const setTimeAndDate = () => {
     setTime(unixToTime(parseInt(message.time, 16)));
   };
+
   useEffect(() => {
     setTimeAndDate();
     if (
-      message.sender.slice(-10).toLowerCase() ===
+      message.sender.slice(-10).toLowerCase() ==
       currentAccount.slice(-10).toLowerCase()
     ) {
       setIsReceiver(true);
@@ -111,6 +118,16 @@ function Message({ message, onChangeLoading }) {
               className={isReceiver ? "chat_message_receive" : "chat_message"}
             >
               {translateMessage}
+
+              <IconButton
+                id="composition-button"
+                aria-controls={open ? "composition-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={()=>setTranslateMessage(undefined)}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
             </Box>
           ) : (
             ""
@@ -133,7 +150,7 @@ function Message({ message, onChangeLoading }) {
                   <ArrowDropDownIcon fontSize="small" />
                 </IconButton>
                 <Popper
-                  style={{ height: "150px", overflowY: "auto" }}
+                  style={{ height: "150px", overflowY: "auto", zIndex:"777777" }}
                   open={open}
                   anchorEl={anchorRef.current}
                   role={undefined}
@@ -185,8 +202,8 @@ function Message({ message, onChangeLoading }) {
               </div>
             </div>
 
-            <span className="chat_timestamp">{date}</span>
-            <span className="chat_timestamp">{time}</span>
+            {/* <span className="chat_timestamp">{date}</span>
+            <span className="chat_timestamp">{time}</span> */}
           </div>
         </>
       ) : (

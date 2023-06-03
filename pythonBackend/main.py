@@ -6,7 +6,7 @@ import sys
 import messages
 from googletrans import Translator,LANGUAGES
 try:
-  openai.api_key ="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"
+  openai.api_key =
 
 
 except KeyError:

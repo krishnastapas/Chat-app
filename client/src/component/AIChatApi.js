@@ -17,7 +17,7 @@ export const chatGPTAPI = async ({ messageList }) => {
 
     try {
 
-
+  
         console.log(messageList)
         let payload = [systemMessage, ...messageList];
         let path = `/chatbot`

@@ -10,36 +10,34 @@ import CreateMassageModal from "./ChatModal";
 import LoadingPage from "../feature/loading/Loading";
 import SendIcon from "@mui/icons-material/Send";
 function Chat() {
-
   const [input, setInput] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [messagesList, setMessageList] = useState([]);
 
-
-  const { currentFriend, sendMessage, readMessageFormContract } =
+  const { currentFriend, sendMessage, readMessageFormContract,currentAccount } =
     useContext(ChatContext);
 
   const [showModal, setShowModal] = useState("");
 
-
-
-
   const readAllmessage = async () => {
     const data = await readMessageFormContract(currentFriend.pubkey);
-    console.log(data)
+    console.log(data);
     setMessageList(data);
   };
 
-
-
   const handleOnclickSendButton = async () => {
     setIsLoading(true);
+    console.log(messagesList);
     await sendMessage(currentFriend.pubkey, input);
-    readAllmessage();
-    setInput("")
+    setMessageList([
+      { sender: currentAccount, msg: input },
+      ...messagesList,
+    ]);
+    // readAllmessage();
+    setInput("");
     setIsLoading(false);
   };
-  
+
   useEffect(() => {
     readAllmessage();
   }, [currentFriend]);
@@ -77,7 +75,13 @@ function Chat() {
       <div className="chat_body">
         {messagesList &&
           messagesList.length > 0 &&
-          messagesList.map((message) => <Message message={message} isLoading={isLoading} onChangeLoading={(ele)=>setIsLoading(ele)} />)}
+          messagesList.map((message) => (
+            <Message
+              message={message}
+              isLoading={isLoading}
+              onChangeLoading={(ele) => setIsLoading(ele)}
+            />
+          ))}
       </div>
 
       {showModal == "add" ? (
